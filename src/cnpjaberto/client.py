@@ -11,7 +11,7 @@ DEFAULT_TIMEOUT = 30.0
 
 
 class CnpjAbertoError(Exception):
-    """Base error for cnpjaberto API failures."""
+    """Erro base para falhas da API cnpjaberto."""
 
     def __init__(self, message: str, *, status_code: int | None = None, payload: Any = None):
         super().__init__(message)
@@ -20,23 +20,23 @@ class CnpjAbertoError(Exception):
 
 
 class AuthError(CnpjAbertoError):
-    """401/403 — missing or invalid API key."""
+    """401 ou 403, chave de API ausente ou inválida."""
 
 
 class NotFoundError(CnpjAbertoError):
-    """404 — CNPJ or resource not found."""
+    """404, CNPJ ou recurso não encontrado."""
 
 
 class RateLimitError(CnpjAbertoError):
-    """429 — daily quota exceeded or per-IP throttle."""
+    """429, cota diária excedida ou throttle por IP."""
 
 
 class Client:
-    """Synchronous client for the cnpjaberto.com.br public API.
+    """Cliente síncrono da API pública do cnpjaberto.com.br.
 
-    API key is read from ``CNPJABERTO_API_KEY`` env var when not passed
-    explicitly. Anonymous requests are allowed but subject to the public
-    rate limit; pass an API key (Pro plan) for the daily quota tier.
+    Quando não passada explicitamente, a chave é lida da variável de ambiente
+    ``CNPJABERTO_API_KEY``. Requisições anônimas funcionam, sujeitas ao rate
+    limit público. Para a cota diária do plano Pro, passe a chave de API.
     """
 
     def __init__(
@@ -100,9 +100,9 @@ class Client:
     # ── Tools ────────────────────────────────────────────────────────
 
     def lookup(self, cnpj: str) -> dict:
-        """Full company record. Top-level: ``razao_social``, ``capital_social``,
-        ``natureza_juridica*``, ``simples``, ``socios``, ``estabelecimentos`` (list,
-        with ``situacao_cadastral``, address, CNAEs)."""
+        """Registro completo da empresa. Campos no topo: ``razao_social``,
+        ``capital_social``, ``natureza_juridica*``, ``simples``, ``socios``,
+        ``estabelecimentos`` (lista com ``situacao_cadastral``, endereço, CNAEs)."""
         return self._get(f"/api/cnpj/{_normalize_cnpj(cnpj)}")
 
     def filiais(
@@ -113,17 +113,17 @@ class Client:
         per_page: int = 50,
         uf: str | None = None,
     ) -> dict:
-        """Branches (filiais) of a company; optionally filter by UF."""
+        """Filiais de uma matriz, opcionalmente filtradas por UF."""
         return self._get(
             f"/api/cnpj/{_normalize_cnpj(cnpj)}/filiais",
             params={"page": page, "per_page": per_page, "uf": uf},
         )
 
     def search(self, q: str, *, page: int = 1, per_page: int = 20) -> dict:
-        """Search by name, fantasy, or CNPJ digits. ``q`` requires ≥ 3 chars;
-        ``per_page`` is capped at 20."""
+        """Busca por razão social, fantasia ou dígitos do CNPJ. ``q`` exige no
+        mínimo 3 caracteres; ``per_page`` é limitado a 20."""
         if len(q.strip()) < 3:
-            raise ValueError("`q` must be at least 3 characters")
+            raise ValueError("`q` precisa ter pelo menos 3 caracteres")
         return self._get("/api/search", params={"q": q, "page": page, "per_page": per_page})
 
     def companies_by_owner(
@@ -134,8 +134,9 @@ class Client:
         exclude: str | None = None,
         limit: int = 20,
     ) -> dict:
-        """Companies where a person appears as partner. ``cpf`` (digits, partial OK)
-        disambiguates homonyms; ``exclude`` removes one ``cnpj_basico`` from results."""
+        """Empresas onde a pessoa aparece como sócia. ``cpf`` em dígitos
+        (parcial é aceito) ajuda a desambiguar homônimos; ``exclude`` remove
+        um ``cnpj_basico`` específico do resultado."""
         return self._get(
             "/api/socio/empresas",
             params={"nome": name, "cpf": cpf, "exclude": exclude, "limit": limit},
@@ -150,11 +151,11 @@ class Client:
         exclude: str | None = None,
         limit: int = 20,
     ) -> dict:
-        """Companies sharing a specific address (CEP + street + number).
-        ``cep`` is exactly 8 digits, no dash."""
+        """Empresas registradas no mesmo endereço (CEP, logradouro, número).
+        ``cep`` precisa ter exatamente 8 dígitos, sem traço."""
         cep_digits = _digits(cep)
         if len(cep_digits) != 8:
-            raise ValueError("`cep` must contain exactly 8 digits")
+            raise ValueError("`cep` precisa ter exatamente 8 dígitos")
         return self._get(
             "/api/endereco/empresas",
             params={
@@ -172,10 +173,10 @@ class Client:
         exclude: str | None = None,
         limit: int = 20,
     ) -> dict:
-        """Companies sharing a contact. Pass either ``email`` OR (``ddd`` AND
-        ``telefone``) — phone match needs the area code separately."""
+        """Empresas que compartilham um contato. Informe ``email`` OU
+        (``ddd`` E ``telefone``); a busca por telefone exige o DDD separado."""
         if not email and not (ddd and telefone):
-            raise ValueError("Provide `email` or both `ddd` and `telefone`")
+            raise ValueError("Informe `email` ou ambos `ddd` e `telefone`")
         return self._get(
             "/api/contato/empresas",
             params={
@@ -185,15 +186,15 @@ class Client:
         )
 
     def cnae_stats(self, codigo: str) -> dict:
-        """Aggregate stats for a CNAE (count of companies, top UFs, etc.)."""
+        """Estatísticas agregadas de um CNAE (contagem, top UFs, etc.)."""
         return self._get(f"/api/cnae/{codigo}/stats")
 
     def panorama_overview(self) -> dict:
-        """National overview: totals, top UFs, top CNAEs, capital ranges, etc."""
+        """Panorama nacional: totais, top UFs, top CNAEs, faixas de capital."""
         return self._get("/api/panorama/overview")
 
     def panorama_year(self, year: int) -> dict:
-        """Yearly cut: openings, closings, monthly series, top CNAEs/UFs."""
+        """Recorte anual: aberturas, fechamentos, série mensal, top CNAEs e UFs."""
         return self._get(f"/api/panorama/year/{int(year)}")
 
 

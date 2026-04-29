@@ -1,80 +1,78 @@
 # cnpjaberto
 
-Python SDK and **Model Context Protocol (MCP)** server for [cnpjaberto.com.br](https://cnpjaberto.com.br) — an open registry of every Brazilian company (CNPJ), with company lookup, partnership graphs, address/contact joins, CNAE statistics, and national/yearly panoramas.
+SDK em Python e servidor **Model Context Protocol (MCP)** para o [cnpjaberto.com.br](https://cnpjaberto.com.br), o cadastro aberto de empresas brasileiras (CNPJ). Permite consulta de empresa, grafo de sócios, joins por endereço e contato, estatísticas por CNAE, e panoramas nacional e anual.
 
 ```bash
-pip install cnpjaberto          # SDK only
-pip install cnpjaberto[mcp]     # SDK + MCP server for Claude Desktop & friends
+pip install cnpjaberto          # apenas SDK
+pip install cnpjaberto[mcp]     # SDK + servidor MCP para Claude Desktop e similares
 ```
 
-## SDK quickstart
+## Início rápido com o SDK
 
 ```python
 from cnpjaberto import Client
 
-with Client() as cnpj:                       # reads CNPJABERTO_API_KEY from env
-    company = cnpj.lookup("18.236.120/0001-58")
-    print(company["razao_social"])
+with Client() as cnpj:                       # lê CNPJABERTO_API_KEY do ambiente
+    empresa = cnpj.lookup("18.236.120/0001-58")
+    print(empresa["razao_social"])
 
-    hits = cnpj.search("nubank", limit=5)
-    for h in hits["results"]:
-        print(h["cnpj_basico"], h["razao_social"])
+    achados = cnpj.search("nubank", per_page=5)
+    for h in achados["results"]:
+        print(h["cnpj"], h["razao_social"])
 
     snap = cnpj.panorama_year(2024)
-    print(f"{snap['abertas']:,} opened, {snap['fechadas']:,} closed")
+    print(f"{snap['abertas']:,} abertas, {snap['fechadas']:,} fechadas em 2024")
 ```
 
-Anonymous calls work and are subject to the public rate limit. For the daily quota tier, sign up at cnpjaberto.com.br/planos and export your key:
+Chamadas anônimas funcionam, sujeitas ao rate limit público. Para a cota diária do plano Pro, gere uma chave em cnpjaberto.com.br/planos e exporte:
 
 ```bash
-export CNPJABERTO_API_KEY=your_key_here
+export CNPJABERTO_API_KEY=sua_chave_aqui
 ```
 
-## MCP server (Claude Desktop, Cursor, Cline, etc.)
+## Servidor MCP (Claude Desktop, Cursor, Cline)
 
-Install the extra and add this to your client config:
+Instale o extra e adicione esta config no seu cliente.
 
 ```bash
 pip install cnpjaberto[mcp]
 ```
 
-`~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+`~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) ou `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
   "mcpServers": {
     "cnpjaberto": {
       "command": "cnpjaberto-mcp",
-      "env": { "CNPJABERTO_API_KEY": "your_key_here" }
+      "env": { "CNPJABERTO_API_KEY": "sua_chave_aqui" }
     }
   }
 }
 ```
 
-Restart Claude Desktop. You can now ask things like:
+Reinicie o Claude Desktop. Agora dá para perguntar coisas como:
 
-- *"Look up CNPJ 18.236.120/0001-58 and tell me when it was founded."*
-- *"Find Brazilian bakeries (CNAE 1091-1/02) — show top UFs."*
-- *"How many companies opened in 2024 vs 2023?"*
-- *"Which companies share the same address as Nubank's HQ?"*
+* *"Consulta o CNPJ 18.236.120/0001-58 e me diz quando foi fundado."*
+* *"Quantas empresas brasileiras abriram em 2024 vs 2023? Quais estados mais cresceram?"*
+* *"Acha empresas onde 'Maria Silva' aparece como sócia, agrupando por estado."*
+* *"Que outras empresas estão registradas no mesmo endereço da matriz da Magazine Luiza?"*
 
-## Tools exposed
+## Tools expostas
 
-| Tool | What it returns |
+| Tool | O que retorna |
 |---|---|
-| `lookup_cnpj(cnpj)` | Full record: razao_social, capital, partners, plus `estabelecimentos[]` (matriz + filiais with address, phones, CNAEs) |
-| `list_filiais(cnpj)` | Branches of a parent company, paginated, optional UF filter |
-| `search_companies(query)` | Search by name, fantasy name, or CNPJ digits (≥3 chars) |
-| `companies_by_owner(name)` | Companies where a person appears as partner; `cpf` digits disambiguate homonyms |
-| `companies_at_same_address(cep, logradouro, numero)` | Other companies registered at the same exact address |
-| `companies_by_contact(email \| ddd+telefone)` | Companies sharing the same email or phone |
-| `cnae_stats(codigo)` | Aggregate stats for a CNAE (count, top UFs, top municipalities) |
-| `panorama_overview()` | National stats: top UFs/CNAEs, capital ranges, age buckets, 10y history |
-| `panorama_year(year)` | Yearly snapshot: openings/closings, monthly series, MEI share |
+| `lookup_cnpj(cnpj)` | Registro completo: razão social, capital, sócios, com `estabelecimentos[]` (matriz e filiais, endereço, telefones, CNAEs) |
+| `list_filiais(cnpj)` | Filiais de uma matriz, paginado, filtro opcional por UF |
+| `search_companies(query)` | Busca por razão social, fantasia ou dígitos do CNPJ (mínimo 3 chars) |
+| `companies_by_owner(name)` | Empresas onde a pessoa aparece como sócia; `cpf` ajuda a desambiguar homônimos |
+| `companies_at_same_address(cep, logradouro, numero)` | Outras empresas registradas no mesmo endereço |
+| `companies_by_contact(email \| ddd+telefone)` | Empresas que compartilham o mesmo email ou telefone |
+| `cnae_stats(codigo)` | Estatísticas agregadas de um CNAE (contagem, top UFs, top municípios) |
+| `panorama_overview()` | Estatísticas nacionais: top UFs e CNAEs, faixas de capital, idade, histórico de 10 anos |
+| `panorama_year(year)` | Recorte anual: aberturas e fechamentos, série mensal, fatia MEI |
 
-## Errors
-
-The SDK raises typed exceptions:
+## Erros tipados
 
 ```python
 from cnpjaberto import Client, NotFoundError, RateLimitError, AuthError
@@ -85,27 +83,27 @@ with Client() as cnpj:
     except NotFoundError:
         ...
     except RateLimitError as e:
-        print("Daily quota:", e.payload)
+        print("Cota diária:", e.payload)
     except AuthError:
         ...
 ```
 
-## Data source
+## Fonte de dados
 
-All data comes from the Brazilian Federal Revenue (Receita Federal) public CNPJ dump, refreshed monthly. cnpjaberto.com.br ingests, indexes, and serves it with sub-second lookups, plus value-added joins (partnership graphs, shared addresses, CNAE aggregates) computed over ~70M establishments and ~67M companies.
+Todos os dados vêm do dump público de CNPJ da Receita Federal, atualizado mensalmente. O cnpjaberto.com.br ingere, indexa e serve com lookups sub-segundo, mais joins de valor agregado (grafo de sócios, endereços compartilhados, agregados por CNAE) sobre cerca de 70 milhões de estabelecimentos e 67 milhões de empresas.
 
 ## Roadmap
 
-- [ ] `companies_in_city` and other Pro-tier endpoints (currently the API gates these by JWT only; once X-API-Key Pro is honored on the backend, they ship in v0.2)
-- [ ] Async client (`AsyncClient`)
-- [ ] Hosted MCP at `mcp.cnpjaberto.com.br` (HTTP+SSE) — no local install
-- [ ] NPM package mirroring the same surface
-- [ ] Streaming endpoints for bulk export
+* [ ] `companies_in_city` e outros endpoints Pro (hoje a API libera só via JWT, quando o backend passar a aceitar X-API-Key Pro entram na v0.2)
+* [ ] Cliente assíncrono (`AsyncClient`)
+* [ ] MCP hospedado em `mcp.cnpjaberto.com.br` (HTTP+SSE), zero install local
+* [ ] Pacote NPM cobrindo a mesma superfície
+* [ ] Streaming para exportação em volume
 
-## Contributing
+## Contribuindo
 
-Issues and PRs welcome at [github.com/iagoassis-dev/cnpjaberto-py](https://github.com/iagoassis-dev/cnpjaberto-py).
+Issues e PRs em [github.com/iagoassis-dev/cnpjaberto-py](https://github.com/iagoassis-dev/cnpjaberto-py).
 
-## License
+## Licença
 
 MIT.

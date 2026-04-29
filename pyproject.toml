@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "cnpjaberto"
 version = "0.1.0"
-description = "Python SDK and MCP server for cnpjaberto.com.br — open Brazilian company registry (CNPJ)."
+description = "SDK em Python e servidor MCP para o cnpjaberto.com.br, cadastro aberto de empresas brasileiras (CNPJ)."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"

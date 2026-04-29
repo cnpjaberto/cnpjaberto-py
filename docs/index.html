@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>cnpjaberto — Python SDK + MCP server for Brazilian CNPJ data</title>
-  <meta name="description" content="Python SDK and Model Context Protocol server for cnpjaberto.com.br. Look up Brazilian companies (CNPJ) from Claude Desktop, Cursor, or any MCP-compatible client." />
-  <meta property="og:title" content="cnpjaberto — Python SDK + MCP for Brazilian CNPJ data" />
-  <meta property="og:description" content="Look up any Brazilian company (CNPJ) from Claude Desktop or your Python script." />
+  <title>cnpjaberto, SDK Python e MCP para dados de CNPJ</title>
+  <meta name="description" content="SDK em Python e servidor Model Context Protocol para o cnpjaberto.com.br. Consulte empresas brasileiras pelo CNPJ direto do Claude Desktop, Cursor ou qualquer cliente MCP." />
+  <meta property="og:title" content="cnpjaberto, SDK Python e MCP para dados de CNPJ" />
+  <meta property="og:description" content="Consulte qualquer empresa brasileira pelo CNPJ direto do Claude Desktop ou de um script Python." />
   <meta property="og:url" content="https://iagoassis-dev.github.io/cnpjaberto-py/" />
   <link rel="canonical" href="https://iagoassis-dev.github.io/cnpjaberto-py/" />
   <style>
@@ -123,7 +123,6 @@
     }
     .step-body h3 { margin-top: 0; }
     footer { margin-top: 80px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--ink-soft); font-size: 13px; }
-    .check { color: var(--green); font-weight: 600; }
   </style>
 </head>
 <body>
@@ -132,25 +131,25 @@
       <span class="badge">Python · MCP · v0.1</span>
       <h1>cnpjaberto</h1>
       <p class="lede">
-        A Python SDK and <strong>Model Context Protocol</strong> server for
-        <a href="https://cnpjaberto.com.br">cnpjaberto.com.br</a> — the open
-        registry of every Brazilian company (CNPJ). Look up companies,
-        partnership graphs, addresses, and national statistics from
-        Claude Desktop, Cursor, or any Python script.
+        SDK em Python e servidor <strong>Model Context Protocol</strong> para o
+        <a href="https://cnpjaberto.com.br">cnpjaberto.com.br</a>, o cadastro
+        aberto de empresas brasileiras (CNPJ). Consulte empresas, grafo de
+        sócios, endereços e estatísticas nacionais a partir do Claude Desktop,
+        do Cursor ou de qualquer script Python.
       </p>
       <div class="cta">
-        <a class="btn" href="https://github.com/iagoassis-dev/cnpjaberto-py">View on GitHub</a>
-        <a class="btn ghost" href="#mcp">Set up MCP →</a>
-        <a class="btn ghost" href="#sdk">SDK quickstart</a>
+        <a class="btn" href="https://github.com/iagoassis-dev/cnpjaberto-py">Ver no GitHub</a>
+        <a class="btn ghost" href="#mcp">Configurar MCP</a>
+        <a class="btn ghost" href="#sdk">SDK rápido</a>
       </div>
     </header>
 
-    <h2 id="mcp">Use it from Claude Desktop in 60 seconds</h2>
+    <h2 id="mcp">Use no Claude Desktop em 60 segundos</h2>
 
     <div class="step">
       <div class="step-num">1</div>
       <div class="step-body">
-        <h3>Install the package</h3>
+        <h3>Instale o pacote</h3>
         <pre><code>pip install cnpjaberto[mcp]</code></pre>
       </div>
     </div>
@@ -158,24 +157,24 @@
     <div class="step">
       <div class="step-num">2</div>
       <div class="step-body">
-        <h3>Drop this in your Claude Desktop config</h3>
+        <h3>Cole isto no config do Claude Desktop</h3>
         <p style="margin: 6px 0 10px; color: var(--ink-soft); font-size: 14px;">
           <code>~/Library/Application Support/Claude/claude_desktop_config.json</code>
-          (macOS) · <code>%APPDATA%\Claude\claude_desktop_config.json</code> (Windows)
+          (macOS) ou <code>%APPDATA%\Claude\claude_desktop_config.json</code> (Windows)
         </p>
 <pre><code>{
   "mcpServers": {
     "cnpjaberto": {
       "command": "cnpjaberto-mcp",
       "env": {
-        "CNPJABERTO_API_KEY": "your_key_here"
+        "CNPJABERTO_API_KEY": "sua_chave_aqui"
       }
     }
   }
 }</code></pre>
         <p style="font-size: 14px; color: var(--ink-soft);">
-          Get a free key at <a href="https://cnpjaberto.com.br/planos">cnpjaberto.com.br/planos</a>.
-          Anonymous usage works too, with public rate limits.
+          Pegue uma chave gratuita em <a href="https://cnpjaberto.com.br/planos">cnpjaberto.com.br/planos</a>.
+          Uso anônimo também funciona, sujeito ao rate limit público.
         </p>
       </div>
     </div>
@@ -183,60 +182,60 @@
     <div class="step">
       <div class="step-num">3</div>
       <div class="step-body">
-        <h3>Restart Claude and ask anything</h3>
+        <h3>Reinicie o Claude e pergunte qualquer coisa</h3>
         <div class="prompts">
-          <div class="prompt">"Look up CNPJ 18.236.120/0001-58 and tell me when it was founded and what its main CNAE is."</div>
-          <div class="prompt">"How many Brazilian companies opened in 2024 vs 2023? Which states grew the most?"</div>
-          <div class="prompt">"Find every active company where 'Maria Silva' appears as a partner — group them by state."</div>
-          <div class="prompt">"What other companies share the same registered address as Magazine Luiza's HQ?"</div>
+          <div class="prompt">"Consulta o CNPJ 18.236.120/0001-58 e me diz quando foi fundado e qual o CNAE principal."</div>
+          <div class="prompt">"Quantas empresas brasileiras abriram em 2024 vs 2023? Quais estados mais cresceram?"</div>
+          <div class="prompt">"Acha toda empresa ativa onde 'Maria Silva' aparece como sócia, agrupando por estado."</div>
+          <div class="prompt">"Que outras empresas estão registradas no mesmo endereço da matriz do Magazine Luiza?"</div>
         </div>
       </div>
     </div>
 
-    <h2>Available tools</h2>
+    <h2>Tools disponíveis</h2>
     <table>
-      <thead><tr><th>Tool</th><th>What it does</th></tr></thead>
+      <thead><tr><th>Tool</th><th>O que faz</th></tr></thead>
       <tbody>
-        <tr><td><code>lookup_cnpj</code></td><td>Full company record: legal name, CNAE, address, partners, capital, branches</td></tr>
-        <tr><td><code>list_filiais</code></td><td>Branches of a parent company (paginated, optional UF filter)</td></tr>
-        <tr><td><code>search_companies</code></td><td>Search by name, fantasy name, or CNPJ digits</td></tr>
-        <tr><td><code>companies_by_owner</code></td><td>Companies where a person appears as partner; CPF disambiguates homonyms</td></tr>
-        <tr><td><code>companies_at_same_address</code></td><td>Other companies registered at a specific address</td></tr>
-        <tr><td><code>companies_by_contact</code></td><td>Companies sharing the same email or phone</td></tr>
-        <tr><td><code>cnae_stats</code></td><td>Aggregate stats for an economic activity code (count, top UFs, mortality)</td></tr>
-        <tr><td><code>panorama_overview</code></td><td>National stats: top UFs, top CNAEs, capital ranges, age buckets, 10y history</td></tr>
-        <tr><td><code>panorama_year</code></td><td>Yearly snapshot: openings/closings, monthly series, MEI share</td></tr>
+        <tr><td><code>lookup_cnpj</code></td><td>Registro completo: razão social, CNAE, endereço, sócios, capital, filiais</td></tr>
+        <tr><td><code>list_filiais</code></td><td>Filiais de uma matriz (paginado, filtro opcional por UF)</td></tr>
+        <tr><td><code>search_companies</code></td><td>Busca por razão social, fantasia ou dígitos do CNPJ</td></tr>
+        <tr><td><code>companies_by_owner</code></td><td>Empresas onde a pessoa aparece como sócia; CPF desambigua homônimos</td></tr>
+        <tr><td><code>companies_at_same_address</code></td><td>Outras empresas registradas no mesmo endereço</td></tr>
+        <tr><td><code>companies_by_contact</code></td><td>Empresas que compartilham o mesmo email ou telefone</td></tr>
+        <tr><td><code>cnae_stats</code></td><td>Estatísticas agregadas de um CNAE (contagem, top UFs, taxa de mortalidade)</td></tr>
+        <tr><td><code>panorama_overview</code></td><td>Estatísticas nacionais: top UFs, top CNAEs, faixas de capital, idade, histórico</td></tr>
+        <tr><td><code>panorama_year</code></td><td>Recorte anual: aberturas e fechamentos, série mensal, fatia MEI</td></tr>
       </tbody>
     </table>
 
-    <h2 id="sdk">Use the SDK directly</h2>
+    <h2 id="sdk">Use o SDK direto</h2>
 
 <pre><code>from cnpjaberto import Client
 
-with Client() as cnpj:                           # reads CNPJABERTO_API_KEY from env
+with Client() as cnpj:                           # lê CNPJABERTO_API_KEY do ambiente
     nubank = cnpj.lookup("18.236.120/0001-58")
     matriz = nubank["estabelecimentos"][0]
-    print(nubank["razao_social"], "—", matriz["situacao_cadastral"])
+    print(nubank["razao_social"], matriz["situacao_cadastral"])
 
     snap = cnpj.panorama_year(2024)
-    print(f"{snap['abertas']:,} opened, {snap['fechadas']:,} closed in 2024")</code></pre>
+    print(f"{snap['abertas']:,} abertas, {snap['fechadas']:,} fechadas em 2024")</code></pre>
 
-    <p>Async client and additional Pro endpoints land in v0.2. Track progress on the
-    <a href="https://github.com/iagoassis-dev/cnpjaberto-py">GitHub repo</a>.</p>
+    <p>Cliente assíncrono e endpoints Pro entram na v0.2. Acompanhe o progresso no
+    <a href="https://github.com/iagoassis-dev/cnpjaberto-py">repositório</a>.</p>
 
-    <h2>Data source</h2>
+    <h2>Fonte de dados</h2>
     <p>
-      All data comes from the Brazilian Federal Revenue (Receita Federal) public
-      CNPJ dump, refreshed monthly. cnpjaberto.com.br ingests, indexes, and
-      serves it with sub-second lookups, plus value-added joins (partnership
-      graphs, shared addresses, CNAE aggregates) over ~70M establishments and
-      ~67M companies.
+      Todos os dados vêm do dump público de CNPJ da Receita Federal,
+      atualizado mensalmente. O cnpjaberto.com.br ingere, indexa e serve
+      com lookups sub-segundo, mais joins de valor agregado (grafo de sócios,
+      endereços compartilhados, agregados por CNAE) sobre cerca de 70 milhões
+      de estabelecimentos e 67 milhões de empresas.
     </p>
 
     <footer>
       <p>
-        MIT License · Built on top of <a href="https://cnpjaberto.com.br">cnpjaberto.com.br</a> ·
-        <a href="https://github.com/iagoassis-dev/cnpjaberto-py">Source on GitHub</a>
+        Licença MIT. Construído sobre o <a href="https://cnpjaberto.com.br">cnpjaberto.com.br</a>.
+        <a href="https://github.com/iagoassis-dev/cnpjaberto-py">Código no GitHub</a>.
       </p>
     </footer>
   </div>
