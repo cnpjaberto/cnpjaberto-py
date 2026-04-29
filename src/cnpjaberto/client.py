@@ -32,11 +32,11 @@ class RateLimitError(CnpjAbertoError):
 
 
 class Client:
-    """Cliente síncrono da API pública do cnpjaberto.com.br.
+    """Cliente síncrono da API do cnpjaberto.com.br.
 
-    Quando não passada explicitamente, a chave é lida da variável de ambiente
-    ``CNPJABERTO_API_KEY``. Requisições anônimas funcionam, sujeitas ao rate
-    limit público. Para a cota diária do plano Pro, passe a chave de API.
+    A chave de API é obrigatória. Quando não passada explicitamente, é lida
+    da variável de ambiente ``CNPJABERTO_API_KEY``. Crie uma conta gratuita
+    em cnpjaberto.com.br/planos para gerar a sua.
     """
 
     def __init__(

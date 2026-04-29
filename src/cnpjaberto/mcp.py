@@ -28,8 +28,8 @@ def build_server(api_key: str | None = None, base_url: str | None = None) -> Fas
         "cnpjaberto",
         instructions=(
             "Dados públicos de CNPJ (cadastro de empresas brasileiras) via "
-            "cnpjaberto.com.br. Aceita CNPJ em dígitos ou formatado. A "
-            "variável CNPJABERTO_API_KEY libera a cota diária do plano Pro."
+            "cnpjaberto.com.br. Aceita CNPJ em dígitos ou formatado. Defina "
+            "a variável CNPJABERTO_API_KEY com a chave da sua conta."
         ),
     )
     client = Client(

@@ -24,7 +24,7 @@ with Client() as cnpj:                       # lê CNPJABERTO_API_KEY do ambient
     print(f"{snap['abertas']:,} abertas, {snap['fechadas']:,} fechadas em 2024")
 ```
 
-Chamadas anônimas funcionam, sujeitas ao rate limit público. Para a cota diária do plano Pro, gere uma chave em cnpjaberto.com.br/planos e exporte:
+A chave de API é obrigatória. Crie uma conta gratuita em cnpjaberto.com.br/planos, copie sua chave e exporte:
 
 ```bash
 export CNPJABERTO_API_KEY=sua_chave_aqui
