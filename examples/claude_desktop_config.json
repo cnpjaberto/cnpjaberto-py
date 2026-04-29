@@ -1,0 +1,11 @@
+{
+  "_comment": "Drop this into ~/Library/Application Support/Claude/claude_desktop_config.json (macOS) or %APPDATA%\\Claude\\claude_desktop_config.json (Windows). Replace the API key with your own.",
+  "mcpServers": {
+    "cnpjaberto": {
+      "command": "cnpjaberto-mcp",
+      "env": {
+        "CNPJABERTO_API_KEY": "your_api_key_here"
+      }
+    }
+  }
+}
