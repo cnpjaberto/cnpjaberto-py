@@ -92,18 +92,6 @@ with Client() as cnpj:
 
 Todos os dados vêm do dump público de CNPJ da Receita Federal, atualizado mensalmente. O cnpjaberto.com.br ingere, indexa e serve com lookups sub-segundo, mais joins de valor agregado (grafo de sócios, endereços compartilhados, agregados por CNAE) sobre cerca de 70 milhões de estabelecimentos e 67 milhões de empresas.
 
-## Roadmap
-
-* [ ] `companies_in_city` e outros endpoints Pro (hoje a API libera só via JWT, quando o backend passar a aceitar X-API-Key Pro entram na v0.2)
-* [ ] Cliente assíncrono (`AsyncClient`)
-* [ ] MCP hospedado em `mcp.cnpjaberto.com.br` (HTTP+SSE), zero install local
-* [ ] Pacote NPM cobrindo a mesma superfície
-* [ ] Streaming para exportação em volume
-
-## Contribuindo
-
-Issues e PRs em [github.com/iagoassis-dev/cnpjaberto-py](https://github.com/iagoassis-dev/cnpjaberto-py).
-
 ## Licença
 
 MIT.
