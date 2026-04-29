@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cnpjaberto"
-version = "0.1.0"
+version = "0.1.1"
 description = "SDK em Python e servidor MCP para o cnpjaberto.com.br, cadastro aberto de empresas brasileiras (CNPJ)."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -32,8 +32,8 @@ dev = ["pytest>=8", "pytest-httpx>=0.30", "ruff>=0.6"]
 [project.urls]
 Homepage = "https://cnpjaberto.com.br"
 Documentation = "https://cnpjaberto.com.br/docs/api"
-Repository = "https://github.com/iagoassis-dev/cnpjaberto-py"
-Issues = "https://github.com/iagoassis-dev/cnpjaberto-py/issues"
+Repository = "https://github.com/cnpjaberto/cnpjaberto-py"
+Issues = "https://github.com/cnpjaberto/cnpjaberto-py/issues"
 
 [project.scripts]
 cnpjaberto-mcp = "cnpjaberto.cli:run_mcp"

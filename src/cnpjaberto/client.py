@@ -49,7 +49,7 @@ class Client:
     ) -> None:
         self.api_key = api_key or os.environ.get("CNPJABERTO_API_KEY")
         self.base_url = base_url.rstrip("/")
-        headers = {"User-Agent": "cnpjaberto-py/0.1.0"}
+        headers = {"User-Agent": "cnpjaberto-py/0.1.1"}
         if self.api_key:
             headers["X-API-Key"] = self.api_key
         self._http = client or httpx.Client(
