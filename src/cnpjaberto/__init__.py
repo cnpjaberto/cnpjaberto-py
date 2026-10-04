@@ -1,11 +1,22 @@
-from cnpjaberto.client import Client, CnpjAbertoError, NotFoundError, RateLimitError, AuthError
+from cnpjaberto.client import (
+    AuthError,
+    Client,
+    CnpjAbertoError,
+    NotFoundError,
+    ProRequiredError,
+    QuotaExceededError,
+    RateLimitError,
+)
 
 __all__ = [
+    "__version__",
     "Client",
     "CnpjAbertoError",
     "NotFoundError",
     "RateLimitError",
     "AuthError",
+    "ProRequiredError",
+    "QuotaExceededError",
 ]
 
-__version__ = "0.1.1"
+from cnpjaberto._version import __version__

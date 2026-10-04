@@ -4,6 +4,7 @@ Defina CNPJABERTO_API_KEY no ambiente para usar a cota diária do plano Pro:
 
     export CNPJABERTO_API_KEY=sua_chave_aqui
 """
+
 from cnpjaberto import Client
 
 

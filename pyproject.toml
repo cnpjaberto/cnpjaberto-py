@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cnpjaberto"
-version = "0.1.1"
+version = "0.2.0"
 description = "SDK em Python e servidor MCP para o cnpjaberto.com.br, cadastro aberto de empresas brasileiras (CNPJ)."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -26,12 +26,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-mcp = ["mcp>=1.0"]
-dev = ["pytest>=8", "pytest-httpx>=0.30", "ruff>=0.6"]
+mcp = ["mcp>=1.28,<2"]
+dev = ["pytest>=8", "pytest-httpx>=0.30", "ruff>=0.6", "pytest-asyncio>=0.24", "build>=1"]
 
 [project.urls]
 Homepage = "https://cnpjaberto.com.br"
-Documentation = "https://cnpjaberto.com.br/docs/api"
+Documentation = "https://cnpjaberto.com.br/api-docs"
 Repository = "https://github.com/cnpjaberto/cnpjaberto-py"
 Issues = "https://github.com/cnpjaberto/cnpjaberto-py/issues"
 
@@ -40,3 +40,10 @@ cnpjaberto-mcp = "cnpjaberto.cli:run_mcp"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/cnpjaberto"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
